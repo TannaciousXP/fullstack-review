@@ -25,7 +25,7 @@ class App extends React.Component {
       data: {term: term},
       datatype: 'JSON',
       success: function(data) {
-        console.log('SEARCH')
+        console.log('SEARCH INSDE SEARCH INDEX.JSX: ', data);
       },
       error: function(xhr, status, err) {
         console.log(this.url, status, err.toString());
