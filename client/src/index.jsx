@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import RepoListEntry from './components/RepoListEntry.jsx';
 
 
 class App extends React.Component {
@@ -12,6 +13,22 @@ class App extends React.Component {
       repos: []
     }
 
+  }
+
+  getRepo (term) {
+    // take the term and search for the user int he database
+    $.ajax({
+      url: '/repos',
+      method: 'GET',
+      data: {term: term},
+      success: (repos) => {
+        console.log('SUCCESS IN GET!: ', repos);
+        this.setState({repos: repos});
+      },
+      error: (err) => {
+        console.log('There is an error');
+      }
+    })
   }
 
   search (term) {
@@ -24,11 +41,12 @@ class App extends React.Component {
       method: 'POST',
       data: {term: term},
       datatype: 'JSON',
-      success: function(data) {
-        console.log('SEARCH INSDE SEARCH INDEX.JSX: ', data);
+      success: (data) => {
+        console.log('SEARCH INSDE SEARCH INDEX.JSX:');
+        this.getRepo(term);
       },
-      error: function(xhr, status, err) {
-        console.log(this.url, status, err.toString());
+      error: (err) => {
+        console.log(err.message);
       }
     });
 
